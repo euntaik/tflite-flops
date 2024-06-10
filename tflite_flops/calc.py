@@ -71,12 +71,8 @@ def calc_flops(path):
         elif op_code_builtin == tflite.BuiltinOperator.FULLY_CONNECTED:
             in_shape = graph.Tensors(op.Inputs(0)).ShapeAsNumpy()
             out_shape = graph.Tensors(op.Outputs(0)).ShapeAsNumpy()
-            _in = _out = 1
-            for v in in_shape:
-                _in *= v
-            for v in out_shape:
-                _out *= v
-            flops = 2 * _in * _out
+            flops = 2 * in_shape[-1] * out_shape[-1]
+            print_flops(op_code_builtin, flops)
         else:
             print_none(op_code_builtin)
 
